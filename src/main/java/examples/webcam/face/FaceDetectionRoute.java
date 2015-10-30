@@ -26,7 +26,7 @@ public class FaceDetectionRoute extends FatJarRouter {
     @Override
     public void configure() throws Exception {
 
-        //1. Detect motion from the webcam, forward only images when we're reasonably sure there's a human
+        //1. Poll the webcam (max) every 500ms, forward only images when we're reasonably sure there's a human
         from("webcam:cam?consumer.delay=500").routeId("face").streamCaching().setHeader("image", bodyAs(byte[].class)).
                 enrich("openimaj:face-detection?confidence=5", (oldExchange, newExchange) -> {
         
