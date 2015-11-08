@@ -1,5 +1,5 @@
 FROM resin/rpi-raspbian:wheezy
-MAINTAINER Taariq Levack <taariq@mtq.io>
+MAINTAINER Taariq Levack <taariql@gmail.com>
 
 # Install dependencies
 RUN echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" | tee -a /etc/apt/sources.list
