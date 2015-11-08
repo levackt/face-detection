@@ -2,6 +2,8 @@
 package examples.webcam.face;
 
 import io.rhiot.component.webcam.WebcamComponent;
+import io.rhiot.utils.install.DefaultInstaller;
+import io.rhiot.utils.install.Installer;
 import org.apache.camel.CamelContext;
 import org.apache.camel.model.dataformat.JsonLibrary;
 import org.apache.camel.spring.boot.FatJarRouter;
@@ -12,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-
 
 /**
  * A Camel route that streams images from the webcam, and if a face is detected it is sent to the web-socket to be viewed from a web page
@@ -47,11 +48,21 @@ public class FaceDetectionRoute extends FatJarRouter {
         }).marshal().json(JsonLibrary.Jackson).to("websocket://camel-webcam?port=9090&sendToAll=true&staticResources=classpath:webapp");
     }
 
+    //modprobe and install video for linux with sudo
     @Bean(name = "webcam")
     public WebcamComponent getWebcamComponent(){
 
         WebcamComponent webcam = new WebcamComponent(camelContext);
+        
         webcam.setV4l2WebcamLoadingCommand("sudo " + webcam.getV4l2WebcamLoadingCommand());
+
+        DefaultInstaller installer = new DefaultInstaller();
+        
+        installer.setInstallCommand("sudo " + installer.getInstallCommand());
+        installer.setUninstallCommand("sudo " + installer.getUninstallCommand());
+        
+        webcam.setInstaller(installer);
+        
         return webcam;
     }
 

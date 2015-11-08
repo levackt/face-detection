@@ -1,7 +1,7 @@
 
 $(document).ready(function() {
 
-	var ws = new WebSocket("ws://localhost:9090/camel-webcam");
+	var ws = new WebSocket("ws://rhiot-pi.local:9090/camel-webcam");
 
 	ws.onopen = function(e) {
 		if (typeof console !== 'undefined') {
