@@ -14,7 +14,7 @@ WORKDIR /var/rhiot
 # Define commonly used JAVA_HOME variable
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
-RUN usermod -a -G video pi
+# RUN usermod -a -G video pi
 
 ADD face-detection-1.0-SNAPSHOT.jar /var/rhiot/app.jar
 
